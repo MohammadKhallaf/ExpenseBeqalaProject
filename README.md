@@ -17,9 +17,9 @@ Requirements:
 
 or:
 
-1.pipenv install
-2.pipenv shell
-3.pipenv install <br /> django
+1. pipenv install
+2. pipenv shell
+3. pipenv install <br /> django
                <br /> djangorestframework
                <br /> djangorestframework-simplejwt==4.8
                <br /> djoser 
