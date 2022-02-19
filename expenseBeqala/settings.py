@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework', #rest_framework
     'djoser', #djoser_library
     'accounts', #accounts_app
+    'store', #store_app
+    'product_list', #product_list_app
 ]
 
 MIDDLEWARE = [
