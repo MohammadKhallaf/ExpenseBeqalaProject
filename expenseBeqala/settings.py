@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.timezone import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -135,11 +136,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+# STATIC_URL = '/static/'
+# STATICFILIES_DIRS = [
+#     os.path.join(BASE_DIR, 'build/static')
+# ]
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-STATICFILIES_DIRS = [
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static')
 ]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # REST_FRAMEWORK = {
@@ -164,6 +170,14 @@ AUTHENTICATION_BACKENDS = (
 
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
+   'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+    ),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
 }
 
 DJOSER = {
