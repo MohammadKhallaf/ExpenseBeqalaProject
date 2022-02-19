@@ -80,13 +80,14 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'expenseBeqala',
-        'USER': 'djangouser',
-        'PASSWORD': 'password',
+        'NAME': 'product_list',
+        'USER': 'product',
+        'PASSWORD': '5555',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
 
 #'ExpenseBeqala123' 
 
