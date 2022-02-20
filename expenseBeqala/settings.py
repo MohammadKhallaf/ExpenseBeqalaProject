@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     'djoser', #djoser_library
     'accounts', #accounts_app
-    'store', #store_app
-    'product_list', #product_list_app
+    'store.apps.StoreConfig', #store_app
+    'product_list.apps.ProductListConfig', #product_list_app
     'cart', #cart_app
 ]
 
@@ -145,11 +145,7 @@ USE_TZ = True
 # ]
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': [
