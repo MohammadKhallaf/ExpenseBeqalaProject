@@ -11,6 +11,7 @@ Requirements:
                <br /> djoser 
                <br /> psycopg2 
                <br /> psycopg2-binary
+               <br /> social-auth-app-django
 4. python manage.py makemigrations
 5. python manage.py migrate
 
@@ -25,5 +26,6 @@ or:
                <br /> djoser 
                <br /> psycopg2 
                <br /> psycopg2-binary
+               <br /> social-auth-app-django
 4. python manage.py makemigrations
 5. python manage.py migrate
