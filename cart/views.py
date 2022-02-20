@@ -118,7 +118,6 @@ def addItemInCart(request):
         CartSer = CartSerializer(data=cart_data)
         if CartSer.is_valid():
             CartSer.save()
-
     return Response(CartSer.data)
 
 
@@ -136,35 +135,61 @@ def updateCheckoutState(request):
     checkout = CheckOut.objects.filter(
         user_id=checkout_data["user"], store=checkout_data["store"], state="open"
     ).first()
-    
+
     if not checkout:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    Checkout = CheckOutSerializer(instance=checkout, data=state, partial=True)
 
+    Checkout = CheckOutSerializer(instance=checkout, data=state, partial=True)
     if Checkout.is_valid():
         Checkout.save()
     return Response(Checkout.data)
 
-# update a cart details
-# you may or may not add an id in request.data
-@api_view(["POST"])
-def updateCart(request, pk):
 
-    cart = Cart.objects.get(id=pk)
-    cartSer = CartSerializer(instance=cart, data=request.data)
+# update the item quatity
+@api_view(["PUT"])
+def updateCart(request):
+    data = request.data
+    newQuantity = {"quantity": data["quantity"]}
 
-    if cartSer.is_valid():
-        cartSer.save()
+    checkout_data = {
+        "user": data["user_id"],  # edit with the current user
+        "store": data["store_id"],  # sent with request
+        "orderDate": datetime.datetime.now(),
+    }
+    checkout = CheckOut.objects.filter(
+        user_id=checkout_data["user"], store=checkout_data["store"], state="open"
+    ).first()
+    if not checkout:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-    return Response(cartSer.data)
+    cart = Cart.objects.get(order_id=checkout.id, product=data["product"])
+    if newQuantity["quantity"] < 1:
+        cart.delete()
+        return Response("Order item succsesfully delete!")
+    else:
+        cartSer = CartSerializer(instance=cart, data=newQuantity, partial=True)
+        if cartSer.is_valid():
+            cartSer.save()
+        return Response(cartSer.data)
 
 
 # delete order item from checkout cart
 @api_view(["DELETE"])
-def deleteCart(request, pk):
-    cart = Cart.objects.get(id=pk)
-    cart.delete()
+def deleteCart(request):
 
+    data = request.data
+    checkout_data = {
+        "user": data["user_id"],  # edit with the current user
+        "store": data["store_id"],  # sent with request
+    }
+    checkout = CheckOut.objects.filter(
+        user_id=checkout_data["user"], store=checkout_data["store"], state="open"
+    ).first()
+    if not checkout:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    cart = Cart.objects.get(order_id=checkout.id, product=data["product"])
+    cart.delete()
     return Response("Order item succsesfully delete!")
 
 
