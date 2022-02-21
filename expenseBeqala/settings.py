@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'accounts', #accounts_app
     'social_django',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
     'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
