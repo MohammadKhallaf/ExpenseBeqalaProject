@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     'djoser', #djoser_library
     'accounts', #accounts_app
+    'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
-    'cart', #cart_app
 ]
 
 MIDDLEWARE = [

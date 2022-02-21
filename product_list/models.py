@@ -1,6 +1,6 @@
 from django.db import models
 
-import store.models 
+import store.models
 
 # Create your models here.
 class Brand(models.Model):
@@ -25,13 +25,3 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
-
-
-# class ProductOffer(models.Model):
-#     offer = models.FloatField()
-#     start_date = models.DateField()
-#     end_date = models.DateField()
-
-#     def __str__(self):
-#         return self.offer            
-

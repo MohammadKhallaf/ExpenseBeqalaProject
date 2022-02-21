@@ -45,3 +45,13 @@ class ProductPrice(models.Model):
 
         def __str__(self):
             return self.price
+
+
+class ProductOffer(models.Model):
+    price = models.ForeignKey(ProductPrice, to_field='id', on_delete = models.CASCADE)
+    offer = models.FloatField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return self.offer       
