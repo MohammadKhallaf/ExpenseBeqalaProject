@@ -11,23 +11,16 @@ class StoreCategory(models.Model):
         return self.name
 
 
-class Location(models.Model):
-    city = models.CharField(max_length=20)
-    region = models.CharField(max_length=20)
-    describe = models.CharField(max_length=500)
-
-    def __str__(self):
-        return f"{self.city} - {self.region}"
-
 
 class Store(models.Model):
     name = models.CharField(max_length=50)
     category_name = models.ForeignKey(StoreCategory, on_delete=models.CASCADE)
     user_account = models.ForeignKey(UserAccount, to_field='id', on_delete=models.CASCADE)
-    location = models.ForeignKey(Location, to_field='id', on_delete=models.CASCADE, null=True)
+    city = models.CharField(max_length=50, default="unknown")
+    address = models.CharField(max_length=200, default="unknown")
     email = models.EmailField(max_length=20)
     phone = models.CharField(max_length=11)
-    describtion = models.CharField(max_length=500)
+    description = models.CharField(max_length=500)
 
 
 

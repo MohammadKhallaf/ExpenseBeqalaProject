@@ -1,15 +1,10 @@
 from rest_framework import serializers
-from store.models import Location, ProductOffer, Store, StoreCategory, ProductPrice
+from store.models import  ProductOffer, Store, StoreCategory, ProductPrice
 
 
 class StoreCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreCategory
-        fields = "__all__"
-
-class LocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
         fields = "__all__"
 
 
