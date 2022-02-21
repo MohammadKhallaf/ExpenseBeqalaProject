@@ -11,21 +11,20 @@ class StoreCategory(models.Model):
         return self.name
 
 
-# class Location(models.Model):
-#     city = models.CharField(max_length=20)
-#     region = models.CharField(max_length=20)
-#     describe = models.CharField(max_length=500)
+class Location(models.Model):
+    city = models.CharField(max_length=20)
+    region = models.CharField(max_length=20)
+    describe = models.CharField(max_length=500)
 
-#     def __str__(self):
-#         return f"{self.city} - {self.region}"
+    def __str__(self):
+        return f"{self.city} - {self.region}"
 
 
 class Store(models.Model):
     name = models.CharField(max_length=50)
     category_name = models.ForeignKey(StoreCategory, on_delete=models.CASCADE)
     user_account = models.ForeignKey(UserAccount, to_field='id', on_delete=models.CASCADE)
-    products = models.ManyToManyField('product_list.Product', through='ProductPrice')
-    # location = models.ForeignKey(Location, to_field='id', on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, to_field='id', on_delete=models.CASCADE, null=True)
     email = models.EmailField(max_length=20)
     phone = models.CharField(max_length=11)
     describtion = models.CharField(max_length=500)
@@ -45,3 +44,13 @@ class ProductPrice(models.Model):
 
         def __str__(self):
             return self.price
+
+
+class ProductOffer(models.Model):
+    price = models.ForeignKey(ProductPrice, to_field='id', on_delete = models.CASCADE)
+    offer = models.FloatField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return self.offer       
