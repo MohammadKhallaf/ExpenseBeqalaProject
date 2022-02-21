@@ -10,7 +10,6 @@ class StoreCategory(models.Model):
     def __str__(self):
         return self.name
 
-
 class Location(models.Model):
     region = models.CharField(max_length=20)
     city = models.CharField(max_length=20)
@@ -29,8 +28,6 @@ class Store(models.Model):
     email = models.EmailField(max_length=20)
     phone = models.CharField(max_length=11)
     describtion = models.CharField(max_length=500)
-
-
 
     def __str__(self):
         return self.name
