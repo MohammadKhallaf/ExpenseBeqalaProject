@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from cart.models import *
+from store.models import *
+from store.serializers import *
 
 class CartSerializer(serializers.ModelSerializer):
+    # price = serializers.ReadOnlyField(source='ProductPriceSerializer.price')
     class Meta:
         model = Cart
         # ('productID','quantity','price','orderID_id')
@@ -10,7 +13,6 @@ class CartSerializer(serializers.ModelSerializer):
 
 class CheckOutSerializer(serializers.ModelSerializer):
     # carts=CartSerializer(many=True)
-   
     class Meta:
         model = CheckOut
         # ('id','userID_id','storeID','orderDate')

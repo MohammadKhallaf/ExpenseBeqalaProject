@@ -5,33 +5,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from uritemplate import partial
 from cart.serializers import CheckOutSerializer, CartSerializer
+from store.serializers import *
 from cart.models import CheckOut, Cart
+from store.models import ProductPrice
 from rest_framework import status
 import datetime
 
-# Helper Function
-# def checkout(pk):
-#     if pk:
-#     checkout = CheckOut.objects.get(id=pk)
-#     Checkout = CheckOutSerializer(checkout, many=False)
-#     api_return = {
-#        'Checkout': []
-#     }
-#     orderDetails = {
-#         'order detail': [],
-#         'cart': [],
-#         'total': []
-#     }
-#     orderDetails['order detail'].append(Checkout.data)
-#     cart = Cart.objects.filter(order_id=pk)
-#     CartSer = CartSerializer(cart, many=True)
-#     total=0
-#     for item in CartSer.data:
-#         orderDetails['cart'].append(item)
-#         total+=(item['price']*item['quantity'])
-#     orderDetails['total'].append(total)
-#     api_return['Checkout'].append(orderDetails)
-#     return api_return
 
 # view all checkouts and its order details
 @api_view(["GET"])
@@ -45,9 +24,13 @@ def ListAllCheckouts(request):
         cart = Cart.objects.filter(order_id=order["id"])
         CartSer = CartSerializer(cart, many=True)
         total = 0
+
         for item in CartSer.data:
-            orderDetails["cart"].append(item)
-            total += item["price"] * item["quantity"]
+            print(item)
+            price = ProductPrice.objects.get(store_id=order["store_id"], product_id=item["id"])
+            print(price)
+            # orderDetails["cart"].append(item)
+            # total += item["price"] * item["quantity"]
         orderDetails["total"].append(total)
         api_return["Checkout"].append(orderDetails)
     return Response(api_return)
@@ -96,7 +79,7 @@ def addItemInCart(request):
     checkout, created = CheckOut.objects.get_or_create(
         user_id=checkout_data["user"], store=checkout_data["store"], state="open"
     )
-    # if the ckeckou is created we add the date with the current time stamp
+    # if the checkout is created we add the date with the current time stamp
     if created:
         checkout.orderDate = datetime.datetime.now()
         checkout.save()
@@ -176,7 +159,6 @@ def updateCart(request):
 # delete order item from checkout cart
 @api_view(["DELETE"])
 def deleteCart(request):
-
     data = request.data
     checkout_data = {
         "user": data["user_id"],  # edit with the current user
@@ -196,7 +178,6 @@ def deleteCart(request):
 # delete checkout
 @api_view(["DELETE"])
 def deleteCheckout(request, pk):
-
     checkout = CheckOut.objects.get(id=pk)
     checkout.delete()
 
