@@ -10,6 +10,7 @@ class StoreCategory(models.Model):
     def __str__(self):
         return self.name
 
+<<<<<<< HEAD
 class Location(models.Model):
     region = models.CharField(max_length=20)
     city = models.CharField(max_length=20)
@@ -17,18 +18,19 @@ class Location(models.Model):
 
     def __str__(self):
         return f"{self.city} - {self.region}"
+=======
+>>>>>>> cc601ec8e6c91dc5c6466a4b372e0ad98fb9f64e
 
 
 class Store(models.Model):
     name = models.CharField(max_length=50)
     category_name = models.ForeignKey(StoreCategory, on_delete=models.CASCADE)
     user_account = models.ForeignKey(UserAccount, to_field='id', on_delete=models.CASCADE)
-    products = models.ManyToManyField('product_list.Product', through='ProductPrice')
-    location = models.ForeignKey(Location, to_field='id', on_delete=models.CASCADE, related_name='storeLocation')
+    city = models.CharField(max_length=50, default="unknown")
+    address = models.CharField(max_length=200, default="unknown")
     email = models.EmailField(max_length=20)
     phone = models.CharField(max_length=11)
-    describtion = models.CharField(max_length=500)
-
+    description = models.CharField(max_length=500)
     def __str__(self):
         return self.name
 
