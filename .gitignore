@@ -1,3 +1,6 @@
+venv
+build
+env.py
 .idea/
 .vscode/
 
@@ -5,7 +8,6 @@
 *.log
 *.pot
 *.pyc
-__pycache__
 db.sqlite3
 media
 migrations/
@@ -16,9 +18,6 @@ migrations/
 *$py.class 
 
 # Installer logs 
-pip-log.txt 
-pip-delete-this-directory.txt 
-
-
 env
 cred.py
+
