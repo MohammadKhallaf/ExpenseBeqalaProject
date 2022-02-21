@@ -10,6 +10,9 @@ djangorestframework-simplejwt = "==4.8"
 djoser = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
+social-auth-app-django = "*"
+djutils = "*"
+urlquote = "*"
 
 [dev-packages]
 
