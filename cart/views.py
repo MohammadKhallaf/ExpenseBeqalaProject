@@ -7,7 +7,8 @@ from uritemplate import partial
 from cart.serializers import CheckOutSerializer, CartSerializer
 from store.serializers import *
 from cart.models import CheckOut, Cart
-from store.models import ProductPrice
+from store.models import ProductPrice, ProductOffer
+from product_list.models import Product
 from rest_framework import status
 import datetime
 from django.shortcuts import get_object_or_404
@@ -20,23 +21,63 @@ def ListAllCheckouts(request):
     Checkout = CheckOutSerializer(checkout, many=True)
     api_return = {"Checkout": []}
     for order in Checkout.data:
-        orderDetails = {"order detail": [], "cart": [], "total": []}
+        # the layout of each checkout 
+        orderDetails = {
+            "order detail": [],
+            "cart": [],
+            "total": []
+            }
         orderDetails["order detail"].append(order)
         cart = Cart.objects.filter(order_id=order["id"])
         CartSer = CartSerializer(cart, many=True)
         total = 0
 
         for item in CartSer.data:
-            print(f"store id:{order['store']}\nproduct id:{item['product']}") #product price id
-            price = ProductPrice.objects.filter(store_id=order["store"], product_id=item['product']).values()
-            print(f"price: {price}")
-            # orderDetails["cart"].append(item)
-            # total += item["price"] * item["quantity"]
+            # the lay out of each product in the cart 
+            temp_cart = {
+                "cart details": [],  # from cart
+                "product details": [],  # from Product
+                "price": [],  # from ProductPrice
+                "offer": [],  # from ProductOffer
+            }
+            # get cart details [orderid, quantity, product price id ]
+            temp_cart["cart details"].append(item)
+            offer = 0
+            price = 0
+            # get product that has the same product price exist in the cart and the same store id in the checkout
+            product_price = get_object_or_404(
+                ProductPrice, store_id=order["store"], id=item["product"]
+            )
+            temp_cart["price"].append(product_price.price)
+            # get the produt details [id, name, price befor offer, brand_id, category_id]
+            product_detail = get_object_or_404(Product, id=product_price.product_id)
+            temp_cart["product details"].append(product_detail)
+            # get the offer if exist and calculate it
+            try:
+                product_offer = get_object_or_404(
+                    ProductOffer, price_id=product_price.id
+                )
+                offer = product_price.price * product_offer.offer
+            except:
+                # if it doesnt exist let it be 0
+                offer = 0
+
+            # add the offer to the cart
+            temp_cart["offer"].append(offer)
+            # calculate the price after the offer and add it to the total
+            # you can add field price which has the price after the offer if you like
+            price = product_price.price - offer
+            total += price * item["quantity"]
+            # add the current cart to the checkout
+            orderDetails["cart"].append(temp_cart)
+
         orderDetails["total"].append(total)
         api_return["Checkout"].append(orderDetails)
     return Response(api_return)
 
+
 # NEED EDIT
+# WILL MAKE IT AFTER TESTING THE ABOVE FUNCTION
 # specific checkouts and its order details
 @api_view(["GET"])
 def viewCheckout(request, pk):
@@ -65,6 +106,8 @@ def viewCheckout(request, pk):
         - update the quatity of the product if it's existed in the cart
     
 """
+
+
 @api_view(["POST"])
 def addItemInCart(request):
     # check if the checkout is exist
@@ -73,7 +116,7 @@ def addItemInCart(request):
     checkout_data = {
         "user": data["user_id"],  # edit with the current user
         "store": data["store_id"],  # sent with request
-        "orderDate": datetime.datetime.now()
+        "orderDate": datetime.datetime.now(),
     }
     checkout, created = CheckOut.objects.get_or_create(
         user_id=checkout_data["user"], store_id=checkout_data["store"], state="open"
@@ -87,7 +130,9 @@ def addItemInCart(request):
     ## if the product exist we add its quatity to the old quatity if not we create a new one
     quantity = data["quantity"]
     # get the product actual price ID
-    product_price = get_object_or_404(ProductPrice, store_id=data["store_id"], product_id=data["product_id"])
+    product_price = get_object_or_404(
+        ProductPrice, store_id=data["store_id"], product_id=data["product_id"]
+    )
 
     try:
         # cart contains product price not product ID
@@ -100,7 +145,7 @@ def addItemInCart(request):
         cart_data = {
             "order": checkout.id,  # this checkout(open checkout) should be unique for (current user, currentstore)
             "product": product_price.id,
-            "quantity": quantity
+            "quantity": quantity,
         }
         CartSer = CartSerializer(data=cart_data)
         if CartSer.is_valid():
@@ -149,7 +194,9 @@ def updateCart(request):
     print(checkout)
     if not checkout:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    product_price = get_object_or_404(ProductPrice, store_id=data["store_id"], product_id=data["product_id"])
+    product_price = get_object_or_404(
+        ProductPrice, store_id=data["store_id"], product_id=data["product_id"]
+    )
     cart = Cart.objects.get(order_id=checkout.id, product_id=product_price.id)
 
     if newQuantity["quantity"] < 1:
