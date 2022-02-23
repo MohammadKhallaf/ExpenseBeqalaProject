@@ -15,6 +15,7 @@ djutils = "*"
 urlquote = "*"
 werkzeug = "==0.14.1"
 whitenoise = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

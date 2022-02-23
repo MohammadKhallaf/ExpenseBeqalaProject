@@ -1,10 +1,8 @@
 from rest_framework.response import Response
-
 from product_list.models import Product
 from .models import ProductPrice, Store, StoreCategory 
 from .serializers import ProductPriceSerializer, StoreSerializer, StoreCategorySerializer
 from rest_framework.decorators import api_view
-
 
 # Create your views here.
 
@@ -35,8 +33,6 @@ def storecategoryApi(request):
             return Response("Added Successfully")
         else:
             return Response ("NOT Valid")
-
-
 
 @api_view(['POST','GET'])
 def priceApi(request):
