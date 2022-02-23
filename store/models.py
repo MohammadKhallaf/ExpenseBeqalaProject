@@ -33,6 +33,7 @@ class ProductPrice(models.Model):
     store = models.ForeignKey('store.Store', to_field='id', on_delete=models.CASCADE)
     product = models.ForeignKey(product_list.models.Product, to_field='id', on_delete=models.CASCADE)
     price = models.FloatField()
+    
 
     def __str__(self):
         return f"{self.store} - {self.product} - {self.price}"
