@@ -1,8 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from accounts.models import *
 from store.models import *
+from django.contrib.auth import get_user_model
+
+from accounts.models import *
 
 # Create your models here.
 User = get_user_model()
@@ -25,7 +26,6 @@ class CheckOut(models.Model):
 
 
 class Cart(models.Model):
-
     order = models.ForeignKey(CheckOut, on_delete=models.CASCADE, related_name='carts')
     product = models.ForeignKey(ProductPrice, to_field='id', on_delete=models.CASCADE, related_name='cartProduct')
     quantity = models.PositiveIntegerField()
