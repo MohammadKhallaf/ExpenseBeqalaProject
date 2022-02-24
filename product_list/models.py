@@ -24,4 +24,4 @@ class Product(models.Model):
     # image = models.ImageField()
     
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.description} - {self.brand}- {self.category}"

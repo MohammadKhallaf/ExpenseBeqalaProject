@@ -2,6 +2,7 @@ from django.db import models
 import product_list.models
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 User = get_user_model()
 
@@ -38,7 +39,7 @@ class ProductPrice(models.Model):
 
 class ProductOffer(models.Model):
     price = models.ForeignKey(ProductPrice, to_field='id', on_delete=models.CASCADE)
-    offer = models.FloatField()
+    offer = models.FloatField(validators=[MaxValueValidator(99.9), MinValueValidator(1)])
     start_date = models.DateField()
     end_date = models.DateField()
 
