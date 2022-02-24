@@ -1,9 +1,18 @@
+from itertools import product
 from rest_framework.response import Response
 from product_list.models import Product
+from product_list.serializers import ProductSerializer
 from .models import ProductPrice, Store, StoreCategory 
 from .serializers import ProductPriceSerializer, StoreSerializer, StoreCategorySerializer
 from rest_framework.decorators import api_view
 
+<<<<<<< HEAD
+=======
+# from rest_framework import DjangoFilterBackend
+# from rest_framework.filters import SearchFilter, OrderingFilter
+
+
+>>>>>>> eb563f90d3206b7085784afbc446c7b3a03e68ae
 # Create your views here.
 
 @api_view(['POST','GET'])
@@ -47,3 +56,31 @@ def priceApi(request):
             return Response("Added Successfully")
         else:
             return Response ("NOT Valid")
+
+
+@api_view(['GET'])
+def bakeryApi(request):
+    request.method == 'GET'
+    bakery = Store.objects.filter(category_name_id= 1)
+    serializer = StoreSerializer(bakery, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def pharmacyApi(request):
+    request.method == 'GET'
+    pharmacy = Store.objects.filter(category_name_id= 2)
+    serializer = StoreSerializer(pharmacy, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def marketApi(request):
+    request.method == 'GET'
+    market = Store.objects.filter(category_name_id= 3)
+    serializer = StoreSerializer(market, many=True)
+    return Response(serializer.data)
+
+@api_view(["GET"])
+def storeSelect(request, pk):
+    productprice = ProductPrice.objects.filter(store_id=pk)
+    productprice_serializer = ProductPriceSerializer(productprice, many= True) 
+    return Response(productprice_serializer.data)

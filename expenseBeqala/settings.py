@@ -145,11 +145,18 @@ STATIC_URL = "/static/"
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": [],
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-}
+     'DEFAULT_PERMISSION_CLASSES': [
+         
+     ],
+     'DEFAULT_AUTHENTICATION_CLASSES': (
+         'rest_framework_simplejwt.authentication.JWTAuthentication',
+     ),
+    
+    'DEFAULT_FILTER_BACKENDS': 
+    ['django_filters.rest_framework.DjangoFilterBackend']
+
+
+ }
 
 
 # STATIC_URL = '/static/'
