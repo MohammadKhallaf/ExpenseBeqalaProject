@@ -11,6 +11,7 @@ env.py
 db.sqlite3
 media
 migrations/
+__pychache__/
 
 
 # Python # 

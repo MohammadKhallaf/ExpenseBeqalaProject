@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "322110b14e9b134dcae0b4307a76bc721e1b95647d0528ff8aae61c1b5823537"
+            "sha256": "6778a262b61292aa1ba0727c8512b6df605437a39f320d6bbd7e886714d11eb2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -169,6 +169,14 @@
             "index": "pypi",
             "version": "==4.0.2"
         },
+        "django-cors-headers": {
+            "hashes": [
+                "sha256:a22be2befd4069c4fc174f11cf067351df5c061a3a5f94a01650b4e928b0372b",
+                "sha256:eb98389bf7a2afc5d374806af4a9149697e3a6955b5a2dc2bf049f7d33647456"
+            ],
+            "index": "pypi",
+            "version": "==3.11.0"
+        },
         "django-templated-mail": {
             "hashes": [
                 "sha256:8db807effebb42a532622e2d142dfd453dafcd0d7794c4c3332acb90656315f9",
@@ -208,7 +216,6 @@
             "index": "pypi",
             "version": "==1.0.15"
         },
-
         "idna": {
             "hashes": [
                 "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff",
@@ -276,7 +283,6 @@
             ],
             "version": "==2.1.0"
         },
-
         "milksnake": {
             "hashes": [
                 "sha256:550ca1fc4222724149ee5a933e6bb8347630c0ed023a2a97701ab94fa256f6b4",
@@ -284,7 +290,6 @@
             ],
             "version": "==0.1.5"
         },
-
         "oauthlib": {
             "hashes": [
                 "sha256:23a8208d75b902797ea29fd31fa80a15ed9dc2c6c16fe73f5d346f83f6fa27a2",
@@ -292,7 +297,6 @@
             ],
             "version": "==3.2.0"
         },
-
         "pillow": {
             "hashes": [
                 "sha256:011233e0c42a4a7836498e98c1acf5e744c96a67dd5032a6f666cc1fb97eab97",
@@ -333,7 +337,6 @@
             ],
             "version": "==9.0.1"
         },
-
         "psycopg2": {
             "hashes": [
                 "sha256:06f32425949bd5fe8f625c49f17ebb9784e1e4fe928b7cce72edc36fb68e4c0c",
@@ -468,9 +471,7 @@
                 "sha256:567ad0e028311541d7dfed51d3bf2c60440a6fd236d5d4d06c5a618b3d6c57c5",
                 "sha256:df5212370bd250108987c4748419a1a1d0cec750878856c2644c36aaa0fd3e58"
             ],
-
             "index": "pypi",
-
             "version": "==4.0.0"
         },
         "social-auth-core": {
@@ -511,6 +512,22 @@
             ],
             "index": "pypi",
             "version": "==1.1.4"
+        },
+        "werkzeug": {
+            "hashes": [
+                "sha256:c3fd7a7d41976d9f44db327260e263132466836cef6f91512889ed60ad26557c",
+                "sha256:d5da73735293558eb1651ee2fddc4d0dedcfa06538b8813a2e20011583c9e49b"
+            ],
+            "index": "pypi",
+            "version": "==0.14.1"
+        },
+        "whitenoise": {
+            "hashes": [
+                "sha256:08c42bc535f9777eea1a599289d9433f081921f97887eaf6f559446b2a080374",
+                "sha256:5a4aff543ee860fbe40d743e556adf92ccd41b7df45697cae074afdf657056b9"
+            ],
+            "index": "pypi",
+            "version": "==6.0.0"
         }
     },
     "develop": {}

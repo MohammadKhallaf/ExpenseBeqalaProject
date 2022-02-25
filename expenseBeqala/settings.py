@@ -40,11 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', #rest_framework
-    'djoser', #djoser
+    'djoser', #djoser_library
     'accounts', #accounts_app
     'social_django',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'cart',  # cart_app
+    'store.apps.StoreConfig', #store_app
+    'product_list.apps.ProductListConfig', #product_list_app
     'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
