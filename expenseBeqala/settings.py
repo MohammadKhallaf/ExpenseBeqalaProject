@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', #rest_framework
-    'djoser', #djoser_library
+    'djoser', #djoser
     'accounts', #accounts_app
     'social_django',
     'rest_framework_simplejwt',
