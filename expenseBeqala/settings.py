@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
+    'location',
     
 ]
 
