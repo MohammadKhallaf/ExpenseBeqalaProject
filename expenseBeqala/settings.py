@@ -48,9 +48,7 @@ INSTALLED_APPS = [
     'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
-    'cart',  # cart_app
-    'store.apps.StoreConfig', #store_app
-    'product_list.apps.ProductListConfig', #product_list_app
+    
 ]
 
 MIDDLEWARE = [
@@ -93,7 +91,6 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
         'NAME': 'expense2',
         'USER': 'djangouser',
         'PASSWORD': 'password',
