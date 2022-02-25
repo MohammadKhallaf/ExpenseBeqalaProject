@@ -10,7 +10,6 @@ from rest_framework.decorators import api_view
 # from rest_framework.filters import SearchFilter, OrderingFilter
 
 
-
 # Create your views here.
 
 @api_view(['POST','GET'])

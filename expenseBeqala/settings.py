@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-eut4_kq4nb_8p-(2@k64)@&=cse4@ipjq)6qsamr3xt#3w-t'
+SECRET_KEY = 'django-insecure-*eut4_kq4nb_8p*-(2@k64)@&=cse4@ipjq)6qsamr3xt#3w-t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
+    'location',
+    
 ]
 
 MIDDLEWARE = [
@@ -105,7 +107,7 @@ from expenseBeqala.env import *
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_USER = EMAIL_HOST_USER 
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS = True
 
@@ -191,7 +193,7 @@ DJOSER = {
     'SET_USERNAME_RETYPE': True,
     'SET_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}', 
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',

@@ -11,9 +11,9 @@ class StoreCategorySerializer(serializers.ModelSerializer):
 
 
 class StoreSerializer(serializers.ModelSerializer):
+    category_name = StoreCategorySerializer ()
     class Meta:
         model = Store
-        stores = StoreCategorySerializer ( many = True)
         fields = '__all__'
         
 
