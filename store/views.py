@@ -81,3 +81,18 @@ def storeSelect(request, pk):
     productprice = ProductPrice.objects.filter(store_id=pk)
     productprice_serializer = ProductPriceSerializer(productprice, many= True) 
     return Response(productprice_serializer.data)
+
+@api_view(['GET'])
+def alexApi(request):
+    request.method == 'GET'
+    market = Store.objects.filter(city = "Alexandria")
+    serializer = StoreSerializer(market, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def cairoApi(request):
+    request.method == 'GET'
+    market = Store.objects.filter(city = "Cairo")
+    serializer = StoreSerializer(market, many=True)
+    return Response(serializer.data)
+
