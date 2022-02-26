@@ -10,13 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-<<<<<<< HEAD
 from expenseBeqala.env import *
-import os
-
-=======
 from pathlib import Path
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
 from django.utils.timezone import timedelta
 import os
 
@@ -33,57 +28,29 @@ SECRET_KEY = 'django-insecure-*eut4_kq4nb_8p*-(2@k64)@&=cse4@ipjq)6qsamr3xt#3w-t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
-
-ROOT_URLCONF = "expenseBeqala.urls"
-
-ALLOWED_HOSTS = ["*"]
-=======
 ALLOWED_HOSTS = []
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
 
 
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "corsheaders",
-    "rest_framework",  # rest_framework
-    "djoser",  # djoser_library
-    "accounts",  # accounts_app
-    "social_django",
-    "rest_framework_simplejwt",
-    "rest_framework_simplejwt.token_blacklist",
-    "cart",  # cart_app
-    "store.apps.StoreConfig",  # store_app
-    "product_list.apps.ProductListConfig",  # product_list_app
-    "UserDashboard",
-    "location",  # view all stores depend on location
-=======
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework', #rest_framework
-    'djoser', #djoser_library
-    'accounts', #accounts_app
+    'rest_framework',  # rest_framework
+    'djoser',  # djoser_library
+    'accounts',  # accounts_app
     'social_django',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'cart',  # cart_app
-    'store.apps.StoreConfig', #store_app
-    'product_list.apps.ProductListConfig', #product_list_app
+    'store.apps.StoreConfig',  # store_app
+    'product_list.apps.ProductListConfig',  # product_list_app
     'location',
-    
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
+
 ]
 
 MIDDLEWARE = [
@@ -126,36 +93,22 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-<<<<<<< HEAD
 
         'NAME': 'expenseBeqala',
         'USER': 'postgres',
         'PASSWORD': '00000000',
-=======
-        'NAME': 'expense2',
-        'USER': 'djangouser',
-        'PASSWORD': 'password',
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
 
-<<<<<<< HEAD
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-=======
-from expenseBeqala.env import *
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
 EMAIL_PORT = 587
-EMAIL_HOST_USER = EMAIL_HOST_USER 
+EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS = True
-
 
 
 # Password validation
@@ -192,28 +145,13 @@ STATIC_URL = '/static/'
 
 
 REST_FRAMEWORK = {
-<<<<<<< HEAD
     'DEFAULT_PERMISSION_CLASSES': [
-
+        # 'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-
-    'DEFAULT_FILTER_BACKENDS':
-    ['django_filters.rest_framework.DjangoFilterBackend']
-
-
 }
-=======
-     'DEFAULT_PERMISSION_CLASSES': [
-         'rest_framework.permissions.IsAuthenticated'
-     ],
-     'DEFAULT_AUTHENTICATION_CLASSES': (
-         'rest_framework_simplejwt.authentication.JWTAuthentication',
-     ),
- }
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
 
 
 STATICFILES_DIRS = [
@@ -222,23 +160,23 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
-    'django.contrib.auth.backends.ModelBackend'
-)
+# AUTHENTICATION_BACKENDS = (
+#     'social_core.backends.google.GoogleOAuth2',
+#     'social_core.backends.facebook.FacebookOAuth2',
+#     'django.contrib.auth.backends.ModelBackend'
+# )
 
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-   'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'AUTH_TOKEN_CLASSES': (
-        'rest_framework_simplejwt.tokens.AccessToken',
-    ),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
-    'UPDATE_LAST_LOGIN': False,
-}
+# SIMPLE_JWT = {
+#     'AUTH_HEADER_TYPES': ('JWT',),
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+#     'AUTH_TOKEN_CLASSES': (
+#         'rest_framework_simplejwt.tokens.AccessToken',
+#     ),
+#     'ROTATE_REFRESH_TOKENS': False,
+#     'BLACKLIST_AFTER_ROTATION': False,
+#     'UPDATE_LAST_LOGIN': False,
+# }
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
@@ -249,7 +187,7 @@ DJOSER = {
     'SET_USERNAME_RETYPE': True,
     'SET_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}', 
+    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
@@ -267,26 +205,19 @@ DJOSER = {
 AUTH_USER_MODEL = 'accounts.UserAccount'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#AUTH_GOOGLE
+# AUTH_GOOGLE
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email',
+                                   'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
-#AUTH_FACEBOOK
+# AUTH_FACEBOOK
 
-SOCIAL_AUTH_FACEBOOK_KEY = SOCIAL_AUTH_FACEBOOK_KEY
-SOCIAL_AUTH_FACEBOOK_SECRET = SOCIAL_AUTH_FACEBOOK_SECRET
-<<<<<<< HEAD
-SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    "fields": "email, first_name, last_name"}
-
-CORS_ORIGIN_ALLOW_ALL = True
-=======
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'email, first_name, last_name'
-}
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
+# SOCIAL_AUTH_FACEBOOK_KEY = SOCIAL_AUTH_FACEBOOK_KEY
+# SOCIAL_AUTH_FACEBOOK_SECRET = SOCIAL_AUTH_FACEBOOK_SECRET
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+#     'fields': 'email, first_name, last_name'
+# }

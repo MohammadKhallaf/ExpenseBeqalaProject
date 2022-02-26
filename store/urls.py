@@ -9,16 +9,9 @@ urlpatterns = [
     path('store/', views.storeApi),
     path('category/', views.storecategoryApi),
     path('prices/', views.priceApi),
-<<<<<<< HEAD
-=======
-   
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
+
     path('category/bakery/', views.bakeryApi),
     path('category/pharmacy/', views.pharmacyApi),
     path('category/market/', views.marketApi),
     path('store/<str:pk>/', views.storeSelect),
-<<<<<<< HEAD
 ]
-=======
-    ]
->>>>>>> 627cd480221a5c72a40162716d3b45bc35ead470
