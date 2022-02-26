@@ -6,7 +6,9 @@ from store.serializers import StoreSerializer
 @api_view(["GET"])
 def ListStore(request, city):
 
+    
     store_location = Store.objects.filter(city=city)
+    print(store_location)
     store_location_ser = StoreSerializer(store_location, many=True)
 
     return Response(store_location_ser.data)

@@ -9,20 +9,17 @@ class StoreCategorySerializer(serializers.ModelSerializer):
         model = StoreCategory
         fields = "__all__"
 
-
 class StoreSerializer(serializers.ModelSerializer):
     category_name = StoreCategorySerializer ()
     class Meta:
         model = Store
         fields = '__all__'
-        
 
 class ProductPriceSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
     class Meta:
         model = ProductPrice
         fields = "__all__"
-        
 
 class ProductOfferSerializer(serializers.ModelSerializer):
     class Meta:
