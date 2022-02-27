@@ -29,4 +29,5 @@ urlpatterns = [
     path("user/", include("UserDashboard.urls")),
 ]
 
-# urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
+urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
+

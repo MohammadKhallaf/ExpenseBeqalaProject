@@ -14,8 +14,8 @@ class StoreCategory(models.Model):
 
 class Store(models.Model):
     STATE_CITY = (
-        ('cairo', 'CAIRO'),
-        ('alex', 'ALEXANDRIA')
+        ('cairo', 'Cairo'),
+        ('alex', 'Alexandria')
     )
     name = models.CharField(max_length=50)
     category_name = models.ForeignKey(StoreCategory, on_delete=models.CASCADE)
@@ -25,6 +25,7 @@ class Store(models.Model):
     email = models.EmailField(max_length=50, unique=True)
     phone = models.CharField(max_length=14)
     description = models.CharField(max_length=500)
+    image = models.CharField(max_length=2000, default="")
 
     def __str__(self):
         return f"{self.id} - {self.user_account} - {self.city}"
