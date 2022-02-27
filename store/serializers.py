@@ -1,6 +1,7 @@
 from itertools import product
+from unicodedata import category
 from rest_framework import serializers
-from product_list.serializers import ProductSerializer
+from product_list.serializers import CategorySerializer, ProductSerializer
 from store.models import  ProductOffer, Store, StoreCategory, ProductPrice
 
 
@@ -19,6 +20,7 @@ class StoreSerializer(serializers.ModelSerializer):
 
 class ProductPriceSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
+    
     class Meta:
         model = ProductPrice
         fields = "__all__"

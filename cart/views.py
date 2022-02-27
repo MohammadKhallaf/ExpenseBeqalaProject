@@ -20,14 +20,16 @@ from rest_framework import viewsets
 # HELPER FUNCTIONS
 # get checkout with upon request data and open
 def getCheckout(data):
+    print(data)
     checkout_data = {
         "user": data["user_id"],  # edit with the current user
         "store": data["store_id"],  # sent with request
     }
-
-    checkout = CheckOut.objects.filter(
+    # if the checkout is not eisted => empty & none
+    checkout= CheckOut.objects.filter(
         user_id=checkout_data["user"], store_id=checkout_data["store"], state="open"
     ).first()
+
     return checkout
 
 
@@ -112,17 +114,16 @@ view the checkout data:
     }
 }
 """
-
-
 def viewCheckout(request):
-
     # checkout
     checkout = getCheckout(request.query_params)
+    if not checkout:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     Checkout = CheckOutSerializer(checkout, many=False)
-
+    # validation if there is no Checkout => why to continue?
     api_return = {"checkout": {}}
     orderDetails = {"order_details": {}, "carts": [], "total": 0}
-
+    
     # carts in the checkout order
     order = Checkout.data
     orderDetails["order_details"] = order
@@ -152,15 +153,14 @@ def viewCheckout(request):
         # get the produt details [id, name, price befor offer, brand_id, category_id]
         product_detail = Product.objects.filter(id=product_price.product_id).first()
         product_ser = ProductSerializer(product_detail, many=False)
-        category_id=product_ser.data['category']
+        
+        #! changes in the serialization => lead to changes in the dictionary
+        category_id=product_ser.data['category']['id']
         category = Category.objects.get(id=category_id)
-
-        product_ser.data['cateogry_name'] = category.name
+     
         temp_cart["product_details"] = product_ser.data
-        temp_cart["product_details"]['category_name'] = category.name
 
-
-        # temp_cart["product_details"].append(category.name)
+        
         # get the offer if exist and calculate it
         try:
             product_offer = get_object_or_404(ProductOffer, price_id=product_price.id)
@@ -173,11 +173,12 @@ def viewCheckout(request):
         temp_cart["offer"] = offer
         # calculate the price after the offer and add it to the total
         # you can add field price which has the price after the offer if you like
-        price = product_price.price - offer
+        price = float(product_price.price - offer)
         temp_cart["price_after_offer"] = price
         total += price * item["quantity"]
         # add the current cart to the checkout
         orderDetails["carts"].append(temp_cart)
+        
         #! end for loop
 
     orderDetails["total"] = total
@@ -201,18 +202,20 @@ def viewCheckout(request):
 def addItemInCart(request):  # [/]
     # check if the checkout is exist
     data = request.data
-    # checkout => open , current     user , in the current      store => order id
+    
+    # checkout => open , current user , in the current store => order id
     checkout_data = {
         "user": data["user_id"],  # edit with the current user
         "store": data["store_id"],  # sent with request
         "orderDate": datetime.datetime.now(),
     }
+    
     checkout, created = CheckOut.objects.get_or_create(
         user_id=checkout_data["user"], store_id=checkout_data["store"], state="open"
     )
-
     # if the checkout is created we add the date with the current time stamp
     if created:
+        
         checkout.orderDate = datetime.datetime.now()
         checkout.save()
 
@@ -222,15 +225,15 @@ def addItemInCart(request):  # [/]
     product_price = get_object_or_404(
         ProductPrice, store_id=data["store_id"], product_id=data["product_id"]
     )
-
-    try:
+    try: #if there is an initiated cart item
         # cart contains product price not product ID
         old_carts = Cart.objects.get(order_id=checkout.id, product=product_price.id)
+        print("====>",{old_carts})
         quantity += old_carts.quantity
         old_carts.quantity = quantity
         old_carts.save()
         CartSer = CartSerializer(old_carts, many=False)
-    except:
+    except: #if not => create a new one
         cart_data = {
             "order": checkout.id,  # this checkout(open checkout) should be unique for (current user, currentstore)
             "product": product_price.id,
@@ -253,9 +256,10 @@ def addItemInCart(request):  # [/]
 
 # update the checkout state only to 'pending' or 'done'
 # status code is REQUIRED as return
-# @api_view(["PUT"])
+@api_view(["PUT"])
 def updateCheckoutState(request):
     data = request.data
+    print("DATAAAA:",data)
     state = {"state": data["state"]}
     checkout_data = {
         "user": data["user_id"],  # edit with the current user

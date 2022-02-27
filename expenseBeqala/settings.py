@@ -16,6 +16,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from expenseBeqala.env import *
 
 
 # Quick-start development settings - unsuitable for production
@@ -102,7 +103,6 @@ DATABASES = {
 }
 
 
-from expenseBeqala.env import *
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
