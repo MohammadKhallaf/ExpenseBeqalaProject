@@ -17,6 +17,7 @@ class CheckOut(models.Model):
         ('done', 'DONE'),
     )
     PAYMENT_CHOICES = (
+        ('none', 'NONE'),
         ('cash', 'CASH'),
         ('credit', 'CREDIT'),
         ('paypal', 'PAYPAL'),
