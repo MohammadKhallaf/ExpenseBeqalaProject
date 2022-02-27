@@ -94,9 +94,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'expenseBeqala',
-        'USER': 'postgres',
-        'PASSWORD': '00000000',
+
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASS,
         'HOST': 'localhost',
         'PORT': '5432',
     }
