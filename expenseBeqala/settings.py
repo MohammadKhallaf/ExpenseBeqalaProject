@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*eut4_kq4nb_8p*-(2@k64)@&=cse4@ipjq)6qsamr3xt#3w-t'
+SECRET_KEY = 'django-insecure-eut4_kq4nb_8p-(2@k64)@&=cse4@ipjq)6qsamr3xt#3w-t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
     'location',
-    
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'expenseBeqala.urls'
@@ -92,9 +93,9 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'expense2',
-        'USER': 'djangouser',
-        'PASSWORD': 'password',
+        'NAME': 'expenseBeqala',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -147,7 +148,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': [
-         'rest_framework.permissions.IsAuthenticated'
+        #'rest_framework.permissions.IsAuthenticated'
      ],
      'DEFAULT_AUTHENTICATION_CLASSES': (
          'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -155,10 +156,10 @@ REST_FRAMEWORK = {
  }
 
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static/')
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 AUTHENTICATION_BACKENDS = (
@@ -221,3 +222,5 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'
 }
+
+CORS_ORIGIN_ALLOW_ALL= True
