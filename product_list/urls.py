@@ -4,6 +4,7 @@ from . import views
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    
     path('', include(router.urls)),
     path('product/', views.productApi),
     path('category/', views.categoryApi),
