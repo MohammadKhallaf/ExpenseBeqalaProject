@@ -16,6 +16,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from expenseBeqala.env import *
 
 
 # Quick-start development settings - unsuitable for production
@@ -92,16 +93,15 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'expense2',
-        'USER': 'djangouser',
-        'PASSWORD': 'password',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASS,
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
 
-from expenseBeqala.env import *
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
