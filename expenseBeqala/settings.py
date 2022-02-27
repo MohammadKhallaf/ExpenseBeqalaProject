@@ -45,10 +45,10 @@ INSTALLED_APPS = [
     'social_django',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'cart',  # cart_app
+     'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
-    'product_list.apps.ProductListConfig', #product_list_app
-    'location',
+     'product_list.apps.ProductListConfig', #product_list_app
+     'location',
     
 ]
 
