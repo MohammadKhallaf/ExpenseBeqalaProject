@@ -6,13 +6,10 @@ from .models import ProductPrice, Store, StoreCategory
 from .serializers import ProductPriceSerializer, StoreSerializer, StoreCategorySerializer
 from rest_framework.decorators import api_view
 
-<<<<<<< HEAD
-=======
 # from rest_framework import DjangoFilterBackend
 # from rest_framework.filters import SearchFilter, OrderingFilter
 
 
->>>>>>> eb563f90d3206b7085784afbc446c7b3a03e68ae
 # Create your views here.
 
 @api_view(['POST','GET'])

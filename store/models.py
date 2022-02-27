@@ -22,7 +22,7 @@ class Store(models.Model):
     user_account = models.ForeignKey(User, to_field='id', on_delete=models.CASCADE)
     city = models.CharField(max_length=50, choices=STATE_CITY, default="cairo")
     address = models.CharField(max_length=200, default="unknown")
-    email = models.EmailField(max_length=20, unique=True)
+    email = models.EmailField(max_length=50, unique=True)
     phone = models.CharField(max_length=14)
     description = models.CharField(max_length=500)
 
