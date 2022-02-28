@@ -23,9 +23,9 @@ class Store(models.Model):
     city = models.CharField(max_length=50, choices=STATE_CITY, default="cairo")
     address = models.CharField(max_length=200, default="unknown")
     email = models.EmailField(max_length=50, unique=True)
-    phone = models.CharField(max_length=14)
+    phone = models.CharField(max_length=20)
     description = models.CharField(max_length=500)
-    image = models.CharField(max_length=2000, default="")
+    image = models.CharField(max_length=2000, default="",null=True)
 
     def __str__(self):
         return f"{self.id} - {self.user_account} - {self.city}"
