@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'rest_framework', #rest_framework
     'djoser', #djoser_library
     'accounts', #accounts_app
-    'social_django',
-    'rest_framework_simplejwt',
+    'social_django', #social_django
+    'rest_framework_simplejwt', #jwt
     'rest_framework_simplejwt.token_blacklist',
      'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
@@ -147,7 +147,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': [
-         'rest_framework.permissions.IsAuthenticated'
+        # 'rest_framework.permissions.IsAuthenticated'
      ],
      'DEFAULT_AUTHENTICATION_CLASSES': (
          'rest_framework_simplejwt.authentication.JWTAuthentication',
