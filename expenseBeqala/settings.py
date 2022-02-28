@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'product_list.apps.ProductListConfig', #product_list_app
     'location',
     "corsheaders",
+    'UserDashboard',
 ]
 
 MIDDLEWARE = [
@@ -94,7 +95,7 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'expenseBeqala',
+        'NAME': 'ExpenseBeqala',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
@@ -148,7 +149,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': [
-        #'rest_framework.permissions.IsAuthenticated'
+        # 'rest_framework.permissions.IsAuthenticated'
      ],
      'DEFAULT_AUTHENTICATION_CLASSES': (
          'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -156,10 +157,10 @@ REST_FRAMEWORK = {
  }
 
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static/')
-# ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static/')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 AUTHENTICATION_BACKENDS = (
