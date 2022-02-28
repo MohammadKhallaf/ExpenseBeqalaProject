@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ExpenseBeqala',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASS,
         'HOST': 'localhost',
         'PORT': '5432',
     }
