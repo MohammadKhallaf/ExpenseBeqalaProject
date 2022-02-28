@@ -51,12 +51,11 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
     'location',
-    "corsheaders",
     'UserDashboard',
 ]
 
 MIDDLEWARE = [
-     "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
