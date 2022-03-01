@@ -2,10 +2,12 @@ from tabnanny import check
 from rest_framework import serializers
 from cart.models import *
 from store.models import *
+from product_list.models import *
 from store.serializers import *
+from product_list.serializers import *
 
 class CartSerializer(serializers.ModelSerializer):
-    # price = serializers.ReadOnlyField(source='ProductPriceSerializer.price')
+    # product=ProductSerializer()
     # return cart data
     #   {
     #   cart item id =>     (cart_id)
