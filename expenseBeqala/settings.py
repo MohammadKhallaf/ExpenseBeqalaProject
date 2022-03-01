@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', #rest_framework
-    "corsheaders",
     'djoser', #djoser_library
     'accounts', #accounts_app
     'social_django', #social_django
@@ -115,9 +114,9 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ExpenseBeqala',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASS,
         'HOST': 'localhost',
         'PORT': '5432',
     }
