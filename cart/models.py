@@ -16,11 +16,17 @@ class CheckOut(models.Model):
         ('pending', 'PENDING'),
         ('done', 'DONE'),
     )
+    PAYMENT_CHOICES = (
+        ('none', 'NONE'),
+        ('cash', 'CASH'),
+        ('credit', 'CREDIT'),
+        ('paypal', 'PAYPAL'),                                   
+    )
     user = models.ForeignKey(User, to_field='id', on_delete=models.CASCADE)
     store = models.ForeignKey(Store, to_field='id', on_delete=models.CASCADE, related_name='store')
     orderDate = models.DateTimeField(null=True)
-    state = models.CharField(max_length=8, choices=STATE_CHOICES, default='open')
-
+    state = models.CharField(max_length=10, choices=STATE_CHOICES, default='open')
+    payment = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default='none')
     def __str__(self):
         return f"{self.user} - {self.store} - {self.id}"
 

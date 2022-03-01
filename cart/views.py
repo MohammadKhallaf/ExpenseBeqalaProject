@@ -259,8 +259,6 @@ def addItemInCart(request):  # [/]
 @api_view(["PUT"])
 def updateCheckoutState(request):
     data = request.data
-    print("DATAAAA:",data)
-    state = {"state": data["state"]}
     checkout_data = {
         "user": data["user_id"],  # edit with the current user
         "store": data["store_id"],  # sent with request
@@ -273,9 +271,36 @@ def updateCheckoutState(request):
     if not checkout:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    Checkout = CheckOutSerializer(instance=checkout, data=state, partial=True)
+    api_return={
+        "state": data["state"],
+        "payment": data["payment"],
+        "orderDate":checkout_data["orderDate"]
+    }
+
+    Checkout = CheckOutSerializer(instance=checkout, data=api_return, partial=True)
     if Checkout.is_valid():
         Checkout.save()
+    return Response(Checkout.data, status=status.HTTP_200_OK)
+
+@api_view(["PUT"])
+def updatePaymentMethod(request):
+    data = request.data
+    payment = {"payment": data["payment"]}
+    checkout_data = {
+        "user": data["user_id"],  # edit with the current user
+        "store": data["store_id"],  # sent with request
+    }
+    checkout = CheckOut.objects.filter(
+        user_id=checkout_data["user"], store=checkout_data["store"], state="open"
+    ).first()
+
+    if not checkout:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    Checkout = CheckOutSerializer(instance=checkout, data=payment, partial=True)
+    if Checkout.is_valid():
+        Checkout.save()
+
     return Response(Checkout.data, status=status.HTTP_200_OK)
 
 
