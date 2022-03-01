@@ -16,13 +16,14 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from expenseBeqala.env import *
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*eut4_kq4nb_8p*-(2@k64)@&=cse4@ipjq)6qsamr3xt#3w-t'
+SECRET_KEY = 'django-insecure-eut4_kq4nb_8p-(2@k64)@&=cse4@ipjq)6qsamr3xt#3w-t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,17 +45,18 @@ INSTALLED_APPS = [
     "corsheaders",
     'djoser', #djoser_library
     'accounts', #accounts_app
-    'social_django',
-    'rest_framework_simplejwt',
+    'social_django', #social_django
+    'rest_framework_simplejwt', #jwt
     'rest_framework_simplejwt.token_blacklist',
-    'cart',  # cart_app
+     'cart',  # cart_app
     'store.apps.StoreConfig', #store_app
     'product_list.apps.ProductListConfig', #product_list_app
     'location',
-    
+    'UserDashboard',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -104,7 +107,6 @@ DATABASES = {
 }
 
 
-from expenseBeqala.env import *
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -150,7 +152,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': [
-    #    'rest_framework.permissions.IsAuthenticated',
+          'rest_framework.permissions.AllowAny',
      ],
      'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -159,9 +161,9 @@ REST_FRAMEWORK = {
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
+    os.path.join(BASE_DIR, 'build/static/')
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 AUTHENTICATION_BACKENDS = (
@@ -224,4 +226,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'
 }
+
 CORS_ORIGIN_ALLOW_ALL= True
+CORS_ALLOW_ALL_ORIGINS = True
