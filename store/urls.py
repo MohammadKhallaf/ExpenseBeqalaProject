@@ -5,7 +5,7 @@ from location.views import ListStore
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    
+
     path('', include(router.urls)),
     path('store/', views.storeApi),
     path('category/', views.storecategoryApi),
@@ -16,5 +16,5 @@ urlpatterns = [
     path('category/pharmacy/', views.pharmacyApi),
     path('category/market/', views.marketApi),
     path('store/<str:pk>/', views.storeSelect),
-
-    ]
+    path('store-data/', views.productOfStore),
+]

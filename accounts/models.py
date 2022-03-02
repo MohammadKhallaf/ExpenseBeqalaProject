@@ -14,7 +14,7 @@ class UserAccountManager(BaseUserManager):
         user.save()
 
         return user
-    
+
     def create_superuser(self, email, password):
 
         if password is None:
@@ -31,6 +31,7 @@ class UserAccountManager(BaseUserManager):
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -40,7 +41,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     objects = UserAccountManager()
 
-    USERNAME_FIELD = 'email' #login field
+    USERNAME_FIELD = 'email'  # login field
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def get_full_name(self):
@@ -48,6 +49,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
-    
+
     def __str__(self):
         return self.email
