@@ -26,7 +26,7 @@ class Store(models.Model):
     city = models.CharField(max_length=50, choices=STATE_CITY, default="cairo")
     address = models.CharField(max_length=200, default="unknown")
     email = models.EmailField(max_length=50, unique=True)
-    phone = models.CharField(max_length=14)
+    phone = models.CharField(max_length=20)
     description = models.CharField(max_length=500)
     image = models.CharField(max_length=2000, default="")
 
@@ -39,8 +39,8 @@ class ProductPrice(models.Model):
         'store.Store', to_field='id', on_delete=models.CASCADE)
     product = models.ForeignKey(
         product_list.models.Product, to_field='id', on_delete=models.CASCADE)
-    price = models.FloatField()
-    quantity = models.IntegerField(default=0)
+    price = models.FloatField(default=0.0)
+    # quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.store} - {self.product} - {self.price}"

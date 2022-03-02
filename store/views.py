@@ -1,5 +1,6 @@
 from itertools import product
 from rest_framework.response import Response
+from uritemplate import partial
 from product_list.models import Product
 from product_list.serializers import ProductSerializer
 from .models import ProductPrice, Store, StoreCategory
@@ -102,3 +103,46 @@ def cairoApi(request):
     market = Store.objects.filter(city="Cairo")
     serializer = StoreSerializer(market, many=True)
     return Response(serializer.data)
+
+
+"""
+1. choose the store
+2. save in product price list 
+3. 
+|> user -> store
+|> user & store & product -> ++ product price
+"""
+
+
+@api_view(["GET", "POST", "PUT", "DELETE"])
+def productOfStore(request):
+    if request.method == "GET":
+        data = request.query_params
+    else:
+        data = request.data
+    print(data)
+    user_id = data['owner_id']
+    user_store = Store.objects.filter(user_account_id=user_id).first()
+
+    if request.method == "POST":
+        product_id = data['product_id']
+        product_price_item = ProductPrice.objects.get_or_create(
+            store_id=user_store.id, product_id=product_id)
+    elif request.method == 'PUT':
+        product_price_id = request.data['product_price_id']
+        product_price_value = request.data['product_price_value']
+        product_price = ProductPrice.objects.get(id=product_price_id)
+        product_price_serializer = ProductPriceSerializer(
+            product_price, data={'price': product_price_value}, partial=True)
+        if product_price_serializer.is_valid():
+            product_price_serializer.save()
+        else:
+            return Response("NOT Valid")
+    elif request.method == "DELETE":
+        product_price_id = request.data['product_price_id']
+        product_price = ProductPrice.objects.get(id=product_price_id)
+        product_price.delete()
+
+    all_products = ProductPrice.objects.filter(store_id=user_store.id)
+    storeProduct_serializer = ProductPriceSerializer(all_products, many=True)
+    return Response(storeProduct_serializer.data)

@@ -1,17 +1,22 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Category, Product, Brand
 from .serializers import CategorySerializer, ProductSerializer, BrandSerializer
 from rest_framework import status
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
+
 
 # Create your views here.
 
 
-@api_view(['GET','POST', 'DELETE'])
+# @permission_classes([IsAuthenticated])
+@api_view(['GET', 'POST', 'DELETE'])
 def productApi(request):
-    print('*******************************************************')
+
+    print('X'*3)
+
     print(request.method)
     print('..............................................................')
     if request.method == 'GET':

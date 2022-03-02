@@ -50,10 +50,12 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',  # store_app
     'product_list.apps.ProductListConfig',  # product_list_app
     'location',
-
+    'UserDashboard',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -147,7 +149,7 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.AllowAny'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -161,23 +163,23 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-# AUTHENTICATION_BACKENDS = (
-#     'social_core.backends.google.GoogleOAuth2',
-#     'social_core.backends.facebook.FacebookOAuth2',
-#     'django.contrib.auth.backends.ModelBackend'
-# )
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
+)
 
-# SIMPLE_JWT = {
-#     'AUTH_HEADER_TYPES': ('JWT',),
-#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-#     'AUTH_TOKEN_CLASSES': (
-#         'rest_framework_simplejwt.tokens.AccessToken',
-#     ),
-#     'ROTATE_REFRESH_TOKENS': False,
-#     'BLACKLIST_AFTER_ROTATION': False,
-#     'UPDATE_LAST_LOGIN': False,
-# }
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+    ),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+}
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
@@ -222,3 +224,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 # SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 #     'fields': 'email, first_name, last_name'
 # }
+
+CORS_ORIGIN_ALLOW_ALL = True
