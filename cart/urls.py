@@ -21,6 +21,8 @@ urlpatterns = [
     path('update/payment/', views.updatePaymentMethod, name="Update checkout payment method"),   # update checkout payment method
     path('update/cart/', views.updateCart, name="Update cart"),   # update cart details
     path('delete/cart/', views.deleteCart, name="delete cart"),   # delete cart details
-    
+
     path('delete/checkout/<str:pk>/', views.deleteCheckout, name="delete checkout"),   # delete checkout 
+    # owner dashboard
+    path('done/', views.OwnerUpdateCheckoutState, name="Update checkout state into Done"),   # update checkout details
 ]
