@@ -14,6 +14,18 @@ class UserAccountManager(BaseUserManager):
         user.save()
 
         return user
+    
+    def create_superuser(self, email, password):
+
+        if password is None:
+            raise TypeError('Superusers must have a password.')
+
+        user = self.create_user(email, password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        return user
 
 
 class UserAccount(AbstractBaseUser, PermissionsMixin):
@@ -21,6 +33,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255)
+    is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     phone = models.IntegerField(null=True)
@@ -28,8 +41,13 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     objects = UserAccountManager()
 
+<<<<<<< HEAD
     USERNAME_FIELD = 'email'  # login field
     REQUIRED_FIELDS = ['first_name', 'last_name', 'is_staff']
+=======
+    USERNAME_FIELD = 'email' #login field
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+>>>>>>> 10f399e530bde786102813643f14438a07d92697
 
     def get_full_name(self):
         return self.first_name
