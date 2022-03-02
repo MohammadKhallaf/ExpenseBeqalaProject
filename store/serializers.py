@@ -16,7 +16,6 @@ class StoreCategorySerializer(serializers.ModelSerializer):
         model = StoreCategory
         fields = "__all__"
 
-
 class StoreSerializer(serializers.ModelSerializer):
     category_name = StoreCategorySerializer()
 

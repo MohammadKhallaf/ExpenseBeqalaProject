@@ -4,24 +4,32 @@ import math
 from itertools import product
 import re
 from urllib import response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from uritemplate import partial
 from cart.serializers import CheckOutSerializer, CartSerializer
 from store.serializers import *
+from django.contrib.auth.models import User
 from cart.models import CheckOut, Cart
-from store.models import ProductPrice, ProductOffer
+from store.models import ProductPrice, ProductOffer, Store
 from product_list.models import *
 from product_list.serializers import ProductSerializer
 from store.serializers import ProductPriceSerializer
+from accounts.serializers import UserCreateSerializer
 from rest_framework import status
 import datetime
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 import io
+from rest_framework.permissions import IsAuthenticated# HELPER FUNCTIONS
+from django.contrib.auth import get_user_model
 
-# HELPER FUNCTIONS
+from accounts.models import *
+
+# Create your models here.
+User = get_user_model()
 # get checkout with upon request data and open
+
 def getCheckout(data):
     print(data)
     checkout_data = {
@@ -35,33 +43,53 @@ def getCheckout(data):
 
     return checkout
 
-
 # NEED EDIT
 # view all checkouts and its order details
+@permission_classes([IsAuthenticated])
 @api_view(["GET"])
 def ListAllCheckouts(request):
-    checkout = CheckOut.objects.all()
+
+    data = request.query_params.get('owner_id')
+
+    print(f"dataddd===={data}")
+    checkout_data = {
+        "user": data,  # edit with the current user
+    }
+
+    store = Store.objects.filter(user_account_id=checkout_data["user"]).first()
+
+    checkout = CheckOut.objects.filter(store_id=store.id)
     Checkout = CheckOutSerializer(checkout, many=True)
+    print(Checkout)
     api_return = {"Checkout": []}
+
     for order in Checkout.data:
         # the layout of each checkout
-        orderDetails = {"order detail": [], "cart": [], "total": []}
-        orderDetails["order detail"].append(order)
+        orderDetails = {"order_detail": [], "customer": [], "cart": [], "total": []}
+
+        orderDetails["order_detail"].append(order)
+
+        customer = User.objects.filter(id=order["user"]).first()
+        Customer = UserCreateSerializer(customer, many=False)
+        # UserCreateSerializer
+        orderDetails["customer"].append(Customer.data)
+
         cart = Cart.objects.filter(order_id=order["id"])
         CartSer = CartSerializer(cart, many=True)
+
         total = 0
 
         for item in CartSer.data:
             # the lay out of each product in the cart
             temp_cart = {
-                "cart details": [],  # from cart
-                "product details": [],  # from Product
+                "cart_details": [],  # from cart
+                "product_details": [],  # from Product
                 "price": [],  # from ProductPrice
                 "offer": [],  # from ProductOffer
-                "price after offer": [],  # from calculated
+                "price_offer": [],  # from calculated
             }
             # get cart details [orderid, quantity, product price id ]
-            temp_cart["cart details"].append(item)
+            temp_cart["cart_details"].append(item)
             offer = 0
             price = 0
             # get product that has the same product price exist in the cart and the same store id in the checkout
@@ -70,10 +98,11 @@ def ListAllCheckouts(request):
             )
             temp_cart["price"].append(product_price.price)
             # get the produt details [id, name, price befor offer, brand_id, category_id]
-            product_detail = Product.objects.filter(id=product_price.product_id).first()
+            product_detail = Product.objects.filter(
+                id=product_price.product_id).first()
             product_ser = ProductSerializer(product_detail, many=False)
 
-            temp_cart["product details"].append(product_ser.data)
+            temp_cart["product_details"].append(product_ser.data)
             # get the offer if exist and calculate it
             try:
                 product_offer = get_object_or_404(
@@ -89,7 +118,7 @@ def ListAllCheckouts(request):
             # calculate the price after the offer and add it to the total
             # you can add field price which has the price after the offer if you like
             price = product_price.price - offer
-            temp_cart["price after offer"].append(price)
+            temp_cart["price_offer"].append(price)
             total += price * item["quantity"]
             # add the current cart to the checkout
             orderDetails["cart"].append(temp_cart)
@@ -152,18 +181,20 @@ def viewCheckout(request):
         )
         temp_cart["price"] = product_price.price
         # get the produt details [id, name, price befor offer, brand_id, category_id]
-        product_detail = Product.objects.filter(id=product_price.product_id).first()
+        product_detail = Product.objects.filter(
+            id=product_price.product_id).first()
         product_ser = ProductSerializer(product_detail, many=False)
 
         #! changes in the serialization => lead to changes in the dictionary
-        category_id = product_ser.data["category"]["id"]
+        category_id = product_ser.data['category']['id']
         category = Category.objects.get(id=category_id)
 
         temp_cart["product_details"] = product_ser.data
 
         # get the offer if exist and calculate it
         try:
-            product_offer = get_object_or_404(ProductOffer, price_id=product_price.id)
+            product_offer = get_object_or_404(
+                ProductOffer, price_id=product_price.id)
             offer = product_price.price * (1 - (product_offer.offer / 100))
         except:
             # if it doesnt exist let it be 0
@@ -199,6 +230,8 @@ def viewCheckout(request):
 
 # if pending => no add
 # @api_view(["POST"])
+
+
 def addItemInCart(request):  # [/]
     # check if the checkout is exist
     data = request.data
@@ -219,7 +252,7 @@ def addItemInCart(request):  # [/]
         checkout.orderDate = datetime.datetime.now()
         checkout.save()
 
-    ## if the product exist we add its quatity to the old quatity if not we create a new one
+    # if the product exist we add its quatity to the old quatity if not we create a new one
     quantity = data["quantity"]
     # get the product actual price ID
     product_price = get_object_or_404(
@@ -235,7 +268,8 @@ def addItemInCart(request):  # [/]
         CartSer = CartSerializer(old_carts, many=False)
     except:  # if not => create a new one
         cart_data = {
-            "order": checkout.id,  # this checkout(open checkout) should be unique for (current user, currentstore)
+            # this checkout(open checkout) should be unique for (current user, currentstore)
+            "order": checkout.id,
             "product": product_price.id,
             "quantity": quantity,
         }
@@ -273,14 +307,69 @@ def updateCheckoutState(request):
     if not checkout:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    Checkout = CheckOutSerializer(instance=checkout, data=state, partial=True)
+    api_return = {
+        "state": data["state"],
+        "payment": data["payment"],
+        "orderDate": checkout_data["orderDate"]
+    }
+
+    Checkout = CheckOutSerializer(
+        instance=checkout, data=api_return, partial=True)
     if Checkout.is_valid():
         Checkout.save()
     return Response(Checkout.data, status=status.HTTP_200_OK)
 
 
+@api_view(["PUT"])
+def updatePaymentMethod(request):
+    data = request.data
+    payment = {"payment": data["payment"]}
+    checkout_data = {
+        "user": data["user_id"],  # edit with the current user
+        "store": data["store_id"],  # sent with request
+    }
+    checkout = CheckOut.objects.filter(
+        user_id=checkout_data["user"], store=checkout_data["store"], state="open"
+    ).first()
+
+    if not checkout:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    Checkout = CheckOutSerializer(
+        instance=checkout, data=payment, partial=True)
+    if Checkout.is_valid():
+        Checkout.save()
+
+    return Response(Checkout.data, status=status.HTTP_200_OK)
+
+
+@api_view(["PUT"])
+def OwnerUpdateCheckoutState(request):
+    data = request.data
+    checkout_data = {
+        "user": data["owner_id"],  # edit with the current user
+        "orderID": data["order_id"],
+    }
+    store = Store.objects.filter(user_account_id=checkout_data["user"]).first()
+    checkout = CheckOut.objects.filter(id=checkout_data["orderID"],store_id=store.id).first()
+
+    if not checkout:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    update = {
+        "state": "done"
+    }
+
+    Checkout = CheckOutSerializer(
+        instance=checkout, data=update, partial=True)
+    if Checkout.is_valid():
+        Checkout.save()
+    return Response(Checkout.data, status=status.HTTP_200_OK)
+
 # update the item quatity
 # @api_view(["PUT"])
+
+
 def updateCart(request):
     data = request.data
     newQuantity = {"quantity": data["quantity"]}
