@@ -70,6 +70,23 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'expenseBeqala.urls'
 
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [os.path.join(BASE_DIR, 'build')],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#                 'social_django.context_processors.backends',
+#                 'social_django.context_processors.login_redirect'
+#             ],
+#         },
+#     },
+# ]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -82,7 +99,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect'
+                # 'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -146,7 +163,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 
 REST_FRAMEWORK = {
@@ -160,7 +177,7 @@ REST_FRAMEWORK = {
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static/')
+   os.path.join(BASE_DIR, 'build/static/')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
@@ -228,3 +245,5 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 
 CORS_ORIGIN_ALLOW_ALL= True
 CORS_ALLOW_ALL_ORIGINS = True
+
+ADMIN_SITE_HEADER = "ExpenseBeqala administration"
