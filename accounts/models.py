@@ -14,7 +14,7 @@ class UserAccountManager(BaseUserManager):
         user.save()
 
         return user
-    
+
     def create_superuser(self, email, password):
 
         if password is None:
@@ -41,13 +41,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     objects = UserAccountManager()
 
-<<<<<<< HEAD
     USERNAME_FIELD = 'email'  # login field
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'is_staff']
-=======
-    USERNAME_FIELD = 'email' #login field
     REQUIRED_FIELDS = ['first_name', 'last_name']
->>>>>>> 10f399e530bde786102813643f14438a07d92697
 
     def get_full_name(self):
         return self.first_name

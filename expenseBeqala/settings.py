@@ -41,40 +41,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'rest_framework',  # rest_framework
     'djoser',  # djoser_library
     'accounts',  # accounts_app
-    'social_django',
-    'rest_framework_simplejwt',
+    'social_django',  # social_django
+    'rest_framework_simplejwt',  # jwt
     'rest_framework_simplejwt.token_blacklist',
     'cart',  # cart_app
     'store.apps.StoreConfig',  # store_app
     'product_list.apps.ProductListConfig',  # product_list_app
     'location',
     'UserDashboard',
-    'corsheaders'
-]
-
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-=======
-    'rest_framework', #rest_framework
-    'djoser', #djoser_library
-    'accounts', #accounts_app
-    'social_django', #social_django
-    'rest_framework_simplejwt', #jwt
-    'rest_framework_simplejwt.token_blacklist',
-     'cart',  # cart_app
-    'store.apps.StoreConfig', #store_app
-    'product_list.apps.ProductListConfig', #product_list_app
-    'location',
-    'UserDashboard',
 ]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
->>>>>>> 10f399e530bde786102813643f14438a07d92697
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -84,7 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
- 
+
 ]
 
 ROOT_URLCONF = 'expenseBeqala.urls'
@@ -186,7 +167,6 @@ STATIC_URL = 'static/'
 
 
 REST_FRAMEWORK = {
-<<<<<<< HEAD
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ],
@@ -194,19 +174,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-=======
-     'DEFAULT_PERMISSION_CLASSES': [
-          'rest_framework.permissions.AllowAny',
-     ],
-     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-     ),
- }
->>>>>>> 10f399e530bde786102813643f14438a07d92697
 
 
 STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'build/static/')
+    os.path.join(BASE_DIR, 'build/static/')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
@@ -273,9 +244,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 #     'fields': 'email, first_name, last_name'
 # }
 
-<<<<<<< HEAD
-CORS_ORIGIN_ALLOW_ALL = True
-=======
 SOCIAL_AUTH_FACEBOOK_KEY = SOCIAL_AUTH_FACEBOOK_KEY
 SOCIAL_AUTH_FACEBOOK_SECRET = SOCIAL_AUTH_FACEBOOK_SECRET
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
@@ -283,8 +251,7 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'
 }
 
-CORS_ORIGIN_ALLOW_ALL= True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 ADMIN_SITE_HEADER = "ExpenseBeqala administration"
->>>>>>> 10f399e530bde786102813643f14438a07d92697
