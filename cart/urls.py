@@ -40,5 +40,6 @@ urlpatterns = [
     path(
         "done/", views.OwnerUpdateCheckoutState, name="Update checkout state into Done"
     ),  # update checkout details
+    path("move/", views.moveLocalToDB, name="move local carts to database"),
     path("price-list/", views.getPriceList, name="Price List"),
 ]
