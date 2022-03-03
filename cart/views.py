@@ -21,7 +21,7 @@ import datetime
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 import io
-from rest_framework.permissions import IsAuthenticated# HELPER FUNCTIONS
+from rest_framework.permissions import IsAuthenticated  # HELPER FUNCTIONS
 from django.contrib.auth import get_user_model
 
 from accounts.models import *
@@ -29,6 +29,7 @@ from accounts.models import *
 # Create your models here.
 User = get_user_model()
 # get checkout with upon request data and open
+
 
 def getCheckout(data):
     print(data)
@@ -43,13 +44,14 @@ def getCheckout(data):
 
     return checkout
 
+
 # NEED EDIT
 # view all checkouts and its order details
 @permission_classes([IsAuthenticated])
 @api_view(["GET"])
 def ListAllCheckouts(request):
 
-    data = request.query_params.get('owner_id')
+    data = request.query_params.get("owner_id")
 
     print(f"dataddd===={data}")
     checkout_data = {
@@ -98,8 +100,7 @@ def ListAllCheckouts(request):
             )
             temp_cart["price"].append(product_price.price)
             # get the produt details [id, name, price befor offer, brand_id, category_id]
-            product_detail = Product.objects.filter(
-                id=product_price.product_id).first()
+            product_detail = Product.objects.filter(id=product_price.product_id).first()
             product_ser = ProductSerializer(product_detail, many=False)
 
             temp_cart["product_details"].append(product_ser.data)
@@ -181,20 +182,18 @@ def viewCheckout(request):
         )
         temp_cart["price"] = product_price.price
         # get the produt details [id, name, price befor offer, brand_id, category_id]
-        product_detail = Product.objects.filter(
-            id=product_price.product_id).first()
+        product_detail = Product.objects.filter(id=product_price.product_id).first()
         product_ser = ProductSerializer(product_detail, many=False)
 
         #! changes in the serialization => lead to changes in the dictionary
-        category_id = product_ser.data['category']['id']
+        category_id = product_ser.data["category"]["id"]
         category = Category.objects.get(id=category_id)
 
         temp_cart["product_details"] = product_ser.data
 
         # get the offer if exist and calculate it
         try:
-            product_offer = get_object_or_404(
-                ProductOffer, price_id=product_price.id)
+            product_offer = get_object_or_404(ProductOffer, price_id=product_price.id)
             offer = product_price.price * (1 - (product_offer.offer / 100))
         except:
             # if it doesnt exist let it be 0
@@ -310,11 +309,10 @@ def updateCheckoutState(request):
     api_return = {
         "state": data["state"],
         "payment": data["payment"],
-        "orderDate": checkout_data["orderDate"]
+        "orderDate": checkout_data["orderDate"],
     }
 
-    Checkout = CheckOutSerializer(
-        instance=checkout, data=api_return, partial=True)
+    Checkout = CheckOutSerializer(instance=checkout, data=api_return, partial=True)
     if Checkout.is_valid():
         Checkout.save()
     return Response(Checkout.data, status=status.HTTP_200_OK)
@@ -335,8 +333,7 @@ def updatePaymentMethod(request):
     if not checkout:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    Checkout = CheckOutSerializer(
-        instance=checkout, data=payment, partial=True)
+    Checkout = CheckOutSerializer(instance=checkout, data=payment, partial=True)
     if Checkout.is_valid():
         Checkout.save()
 
@@ -351,20 +348,20 @@ def OwnerUpdateCheckoutState(request):
         "orderID": data["order_id"],
     }
     store = Store.objects.filter(user_account_id=checkout_data["user"]).first()
-    checkout = CheckOut.objects.filter(id=checkout_data["orderID"],store_id=store.id).first()
+    checkout = CheckOut.objects.filter(
+        id=checkout_data["orderID"], store_id=store.id
+    ).first()
 
     if not checkout:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    update = {
-        "state": "done"
-    }
+    update = {"state": "done"}
 
-    Checkout = CheckOutSerializer(
-        instance=checkout, data=update, partial=True)
+    Checkout = CheckOutSerializer(instance=checkout, data=update, partial=True)
     if Checkout.is_valid():
         Checkout.save()
     return Response(Checkout.data, status=status.HTTP_200_OK)
+
 
 # update the item quatity
 # @api_view(["PUT"])
@@ -449,14 +446,58 @@ class CartView(viewsets.ModelViewSet):
 
 # <-- getting a list of products -->
 
+
 @api_view(["GET"])
 def getPriceList(request):
     product_list = request.query_params.getlist("product_store[]", None)
     product_list_dic = []
     for item in product_list:
         item = json.loads(item)
-        product_price = ProductPrice.objects.get(product=item['product'], store=item['store'])
+        product_price = ProductPrice.objects.get(
+            product=item["product"], store=item["store"]
+        )
         product_list_dic.append(product_price)
     product_price_serializer = ProductPriceSerializer(product_list_dic, many=True)
 
     return Response(product_price_serializer.data)
+
+
+# <-- moving the local list to database -->
+"""
+1. get user_id & list of [{store_id & [{product_id&quantity},{..}]} ,{...},{...}]
+2. loop through each store_id [ loop through ]
+    => if there is an open checkout for that store (user_id & store_id)
+        => if there is a similar cart (store_id & product_id ) in it
+            => don't add it
+        => if no similar product in that checkout => add it
+    => if there is no open checkout 
+        => create a new one & add products in it
+
+"""
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def moveLocalToDB(request):
+    data = request.data
+    user_id = data["user_id"]
+
+    """<-- for each store -->"""
+    for cart in data["list_of_carts"]:
+        cart_item = {}
+        cart_item["store_id"] = cart[0]["store"]["id"]
+        store_id = cart[0]["store"]["id"]
+        checkout, created = CheckOut.objects.get_or_create(
+            user_id=user_id, store_id=store_id, state="open"
+        )
+
+        """<--for each product in the store-->"""
+        for item in cart:
+            product_id = item["product"]["id"]
+            quantity = item["quantity"]
+            product_price = ProductPrice.objects.get(product=product_id, store=store_id)
+            cart, created = Cart.objects.get_or_create(
+                product=product_price,
+                order_id=checkout.id,
+                defaults={"quantity": quantity},
+            )
+
+    return Response(status=status.HTTP_200_OK)
