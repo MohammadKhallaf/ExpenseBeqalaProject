@@ -5,6 +5,7 @@ from . import views
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('stores/<str:city>/', views.ListStore, name="List Store based on location"),
-    ]
+    path("", include(router.urls)),
+    path("stores/<str:city>/", views.ListStore, name="List Store based on location"),
+    path("cities/", views.getCities, name="List Cities"),
+]
