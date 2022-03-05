@@ -28,6 +28,7 @@ urlpatterns = [
     path("store/", include("store.urls")),
     path("location/", include("location.urls")),
     path("user/", include("UserDashboard.urls")),
+    path("mid/",include("middleApp.urls"))
 ]
 
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
