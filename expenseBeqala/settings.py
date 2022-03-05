@@ -64,7 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+   
 
 ]
 
@@ -116,9 +116,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
 
-        'NAME': POSTGRES_DB,
-        'USER': POSTGRES_USER,
-        'PASSWORD': POSTGRES_PASS,
+        'NAME': 'ExpenseBeqala',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -251,7 +251,7 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 ADMIN_SITE_HEADER = "ExpenseBeqala administration"
