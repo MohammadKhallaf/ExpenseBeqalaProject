@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'product_list.apps.ProductListConfig', #product_list_app
     'location',
     'UserDashboard',
+    'middleApp'
 ]
 
 MIDDLEWARE = [
@@ -166,6 +167,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
+
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': [
           'rest_framework.permissions.AllowAny',
@@ -243,7 +245,6 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'
 }
 
-CORS_ORIGIN_ALLOW_ALL= True
 CORS_ALLOW_ALL_ORIGINS = True
 
 ADMIN_SITE_HEADER = "ExpenseBeqala administration"
