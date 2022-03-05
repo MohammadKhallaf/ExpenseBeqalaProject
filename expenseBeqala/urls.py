@@ -19,7 +19,7 @@ from django.views.generic import TemplateView
 from django.conf import settings
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 urlpatterns = [
-    path("owner/", admin.site.urls),
+    path("admin/", admin.site.urls),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
     path("auth/", include("djoser.social.urls")),
@@ -28,7 +28,7 @@ urlpatterns = [
     path("store/", include("store.urls")),
     path("location/", include("location.urls")),
     path("user/", include("UserDashboard.urls")),
+    path("mid/",include("middleApp.urls"))
 ]
 
-urlpatterns += [re_path(r'^.*',
-                        TemplateView.as_view(template_name='index.html'))]
+urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]

@@ -10,13 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from expenseBeqala.env import *
 from pathlib import Path
 from django.utils.timezone import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from expenseBeqala.env import *
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,17 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',  # rest_framework
-    'djoser',  # djoser_library
-    'accounts',  # accounts_app
-    'social_django',  # social_django
-    'rest_framework_simplejwt',  # jwt
+    'rest_framework', #rest_framework
+    'djoser', #djoser_library
+    'accounts', #accounts_app
+    'social_django', #social_django
+    'rest_framework_simplejwt', #jwt
     'rest_framework_simplejwt.token_blacklist',
-    'cart',  # cart_app
-    'store.apps.StoreConfig',  # store_app
-    'product_list.apps.ProductListConfig',  # product_list_app
+     'cart',  # cart_app
+    'store.apps.StoreConfig', #store_app
+    'product_list.apps.ProductListConfig', #product_list_app
     'location',
     'UserDashboard',
+    'middleApp'
 ]
 
 MIDDLEWARE = [
@@ -64,8 +65,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+<<<<<<< HEAD
    
 
+=======
+    "corsheaders.middleware.CorsMiddleware",
+ 
+>>>>>>> c513a46b52b352559c1130aecdd8ffa7bfe351b8
 ]
 
 ROOT_URLCONF = 'expenseBeqala.urls'
@@ -114,23 +120,31 @@ WSGI_APPLICATION = 'expenseBeqala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+<<<<<<< HEAD
 
 
         'NAME': 'ExpenseBeqala',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
+=======
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASS,
+>>>>>>> c513a46b52b352559c1130aecdd8ffa7bfe351b8
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_USER = EMAIL_HOST_USER 
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS = True
+
 
 
 # Password validation
@@ -166,18 +180,19 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
+
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+     'DEFAULT_PERMISSION_CLASSES': [
+          'rest_framework.permissions.AllowAny',
+     ],
+     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
+     ),
+ }
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static/')
+   os.path.join(BASE_DIR, 'build/static/')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
@@ -189,8 +204,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('JWT',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+   'AUTH_HEADER_TYPES': ('JWT',),
+   'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
@@ -209,7 +224,7 @@ DJOSER = {
     'SET_USERNAME_RETYPE': True,
     'SET_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}', 
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
@@ -227,22 +242,14 @@ DJOSER = {
 AUTH_USER_MODEL = 'accounts.UserAccount'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_GOOGLE
+#AUTH_GOOGLE
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email',
-                                   'https://www.googleapis.com/auth/userinfo.profile', 'openid']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
-# AUTH_FACEBOOK
-
-# SOCIAL_AUTH_FACEBOOK_KEY = SOCIAL_AUTH_FACEBOOK_KEY
-# SOCIAL_AUTH_FACEBOOK_SECRET = SOCIAL_AUTH_FACEBOOK_SECRET
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-#     'fields': 'email, first_name, last_name'
-# }
+#AUTH_FACEBOOK
 
 SOCIAL_AUTH_FACEBOOK_KEY = SOCIAL_AUTH_FACEBOOK_KEY
 SOCIAL_AUTH_FACEBOOK_SECRET = SOCIAL_AUTH_FACEBOOK_SECRET
@@ -251,7 +258,10 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'email, first_name, last_name'
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c513a46b52b352559c1130aecdd8ffa7bfe351b8
 CORS_ALLOW_ALL_ORIGINS = True
 
 ADMIN_SITE_HEADER = "ExpenseBeqala administration"
