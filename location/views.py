@@ -12,7 +12,6 @@ def ListStore(request, city):
 
     return Response(store_location_ser.data)
 
-
 @api_view(["GET"])
 def getCities(request):
     city_list = Store.objects.values_list("city", flat=True).distinct()
