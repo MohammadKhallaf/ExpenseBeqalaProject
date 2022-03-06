@@ -9,8 +9,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from store.models import Store
 from store.serializers import ProductPriceSerializer
-
+from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import ensure_csrf_cookie
+import re
 
 
 # TODO: get the related stores of the user
@@ -22,6 +24,7 @@ from rest_framework.permissions import IsAuthenticated
 
 # 1. cart_checkout  ( user_id [/] , store_id [O] , state = 'open' ) => get all open checkouts
 # 2. store_store get the stores' names only
+User = get_user_model()
 
 
 class StoreSerializer(serializers.ModelSerializer):
@@ -46,9 +49,8 @@ class OrderCheckOutSerializer(CheckOutSerializer):
     carts = OrderCartSerializer(many=True, read_only=True)
 
 
-# @authentication_classes([SessionAuthentication, BasicAuthentication])
-# @permission_classes([IsAuthenticated])
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def getOpenCheckouts(request):
     print(request.user)
     print(request.auth)
@@ -60,7 +62,7 @@ def getOpenCheckouts(request):
 
 
 @api_view(["GET"])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def getAllOrders(request):
     req_user_id = request.query_params["user_id"]
     user_stores = CheckOut.objects.filter(user=req_user_id)
@@ -76,3 +78,27 @@ def getOrder(request, id=None):
     checkouts_serializer = OrderCheckOutSerializer(user_stores, many=True)
     open_stores_data = {"store_id": checkouts_serializer.data}
     return Response(checkouts_serializer.data)
+
+
+# @ensure_csrf_cookie()
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def updateDetails(request):
+    user = User.objects.get(id=request.data["user_id"])
+
+    # if the request contains phone number change
+    if "user_phone" in request.data:
+
+        # validate phone number
+        match = re.match("^01[0125][0-9]{8}$", request.data["user_phone"])
+        if match:
+            user.phone = request.data["user_phone"]
+        else:
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    if "user_address" in request.data:
+        user.address = request.data["user_address"]
+
+    user.save()
+
+    return Response("Done")

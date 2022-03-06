@@ -36,7 +36,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(('superuser'), default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    phone = models.IntegerField(null=True)
+    phone = models.CharField(max_length=11,null=True)
     address = models.CharField(max_length=255, null=True)
 
     objects = UserAccountManager()
