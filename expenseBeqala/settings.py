@@ -66,10 +66,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-<<<<<<< HEAD
-
-=======
->>>>>>> 9c2def057d5c5b7160437134cb36b3fa13318e10
 ]
 
 ROOT_URLCONF = "expenseBeqala.urls"
@@ -116,7 +112,6 @@ WSGI_APPLICATION = "expenseBeqala.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-<<<<<<< HEAD
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ExpenseBeqala',
@@ -124,15 +119,6 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
-=======
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": POSTGRES_DB,
-        "USER": POSTGRES_USER,
-        "PASSWORD": POSTGRES_PASS,
-        "HOST": "localhost",
-        "PORT": "5432",
->>>>>>> 9c2def057d5c5b7160437134cb36b3fa13318e10
     }
 }
 
